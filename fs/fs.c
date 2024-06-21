@@ -29,6 +29,34 @@ static inline int fs_probe_unsupported(struct blk_desc *fs_dev_desc,
 				      disk_partition_t *fs_partition)
 {
 	printf("** Unrecognized filesystem type **\n");
+	if (fs_dev_desc) {
+		printf("*** fs_dev_desc information - BEGIN\n");
+		printf("Number: %d\n", fs_dev_desc->devnum);
+		printf("HW Part: %d\n", fs_dev_desc->hwpart);
+		printf("Type: %d\n", fs_dev_desc->part_type);
+		printf("Removable: %d\n", fs_dev_desc->removable);
+		printf("Operation Flags: %d\n", fs_dev_desc->op_flag);
+		printf("BLK Size: %lu\n", fs_dev_desc->blksz);
+		printf("Vendor: %s\n", fs_dev_desc->vendor);
+		printf("*** fs_dev_desc information - END\n");
+	} else {
+		printf("*** Can not provide fs_dev_desc information\n");
+	}
+	if (fs_partition) {
+		printf("*** fs_partition information - BEGIN\n");
+		printf("Size: %lu\n", fs_partition->blksz);
+		printf("Name: %s\n", fs_partition->name);
+		printf("Type: %s\n", fs_partition->type);
+#if CONFIG_IS_ENABLED(PARTITION_UUIDS)
+		printf("UUID: %s\n", fs_partition->uuid);
+#endif
+#ifdef CONFIG_PARTITION_TYPE_GUID
+		printf("Type UUID: %s\n", fs_partition->type_guid);
+#endif
+		printf("*** fs_partition information - END\n");
+	} else {
+		printf("*** Can not provide fs_partition information\n");
+	}
 	return -1;
 }
 
